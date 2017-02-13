@@ -81,6 +81,7 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
     float _rotation;
+    bool rotating;
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
@@ -95,6 +96,8 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
+
+- (IBAction)doDoubleTap:(UITapGestureRecognizer *)recognizer;
 @end
 
 @implementation GameViewController
@@ -114,6 +117,11 @@ GLfloat gCubeVertexData[216] =
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTap];
+    
 }
 
 - (void)dealloc
@@ -201,23 +209,21 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
     baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
     
-    // Compute the model view matrix for the object rendered with GLKit
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
+    // Compute the model view matrix for the object rendered with ES2
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     self.effect.transform.modelviewMatrix = modelViewMatrix;
     
-    // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 1.5f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
-    
     _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
     
     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
-    _rotation += self.timeSinceLastUpdate * 0.5f;
+    if (rotating) {
+        _rotation += self.timeSinceLastUpdate * 0.5f;
+    }
+    
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -391,6 +397,10 @@ GLfloat gCubeVertexData[216] =
     }
     
     return YES;
+}
+
+-  (IBAction)doDoubleTap : (UITapGestureRecognizer *) recognizer {
+    rotating = !rotating;
 }
 
 @end
