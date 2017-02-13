@@ -80,6 +80,7 @@ GLfloat gCubeVertexData[216] =
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
+    GLKMatrix4 modelViewMatrix;
     float _rotation, _rotation2;
     bool rotating;
     
@@ -123,6 +124,10 @@ GLfloat gCubeVertexData[216] =
     UIPanGestureRecognizer *singlePress = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
     singlePress.maximumNumberOfTouches = 1;
     [self.view addGestureRecognizer:singlePress];
+    
+    UIPinchGestureRecognizer *singlePinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(doSinglePinch:)];
+    [self.view addGestureRecognizer:singlePinch];
+    
 }
 
 - (void)dealloc
@@ -164,7 +169,7 @@ GLfloat gCubeVertexData[216] =
     
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
+    self.effect.light0.diffuseColor = GLKVector4Make(0.0f, 1.0f, 0.0f, 1.0f);
     
     glEnable(GL_DEPTH_TEST);
     
@@ -211,7 +216,7 @@ GLfloat gCubeVertexData[216] =
     //baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 0.0f, 0.0f); // camera's rotation
     
     // Compute the model view matrix for the object rendered with ES2
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
+    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
@@ -412,6 +417,17 @@ GLfloat gCubeVertexData[216] =
         } else if (vel.x < 0) {
             _rotation -= self.timeSinceLastUpdate * 1.0f;
         }
+        if (vel.y > 0) {
+            _rotation2 += self.timeSinceLastUpdate * 1.0f;
+        } else if (vel.y < 0) {
+            _rotation2 -= self.timeSinceLastUpdate * 1.0f;
+        }
+    }
+}
+
+- (void) doSinglePinch : (UIPinchGestureRecognizer *) recognizer {
+    if (recognizer.scale > 1) {
+        modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, 1.0f);
     }
 }
 
