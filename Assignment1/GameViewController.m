@@ -117,17 +117,6 @@ GLfloat gCubeVertexData[216] =
     
     [self setupGL];
     
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)];
-    doubleTap.numberOfTapsRequired = 2;
-    [self.view addGestureRecognizer:doubleTap];
-    
-    UIPanGestureRecognizer *singlePress = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
-    singlePress.maximumNumberOfTouches = 1;
-    [self.view addGestureRecognizer:singlePress];
-    
-    UIPinchGestureRecognizer *singlePinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(doSinglePinch:)];
-    [self.view addGestureRecognizer:singlePinch];
-    
 }
 
 - (void)dealloc
@@ -406,32 +395,22 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
--  (void) doDoubleTap : (UITapGestureRecognizer *) recognizer {
-    rotating = !rotating;
+//GESTURES
+- (IBAction)singleTapRecognizer:(UITapGestureRecognizer *)sender {
+    NSLog(@"Single Tap");
 }
 
--  (void) doSingleTap : (UIPanGestureRecognizer *) recognizer {
-    CGPoint vel = [recognizer velocityInView:self.view];
-    if (!rotating) {
-        if (vel.x > 0) {
-            _rotation += self.timeSinceLastUpdate * 1.0f;
-        } else if (vel.x < 0) {
-            _rotation -= self.timeSinceLastUpdate * 1.0f;
-        }
-        if (vel.y > 0) {
-            _rotation2 += self.timeSinceLastUpdate * 1.0f;
-        } else if (vel.y < 0) {
-            _rotation2 -= self.timeSinceLastUpdate * 1.0f;
-        }
-    }
+- (IBAction)pinchRecognizer:(UIPinchGestureRecognizer *)sender {
+    float scale = [sender scale];
+    NSLog(@"Scale %.1f", scale);
 }
 
-- (void) doSinglePinch : (UIPinchGestureRecognizer *) recognizer {
-    if (recognizer.velocity > 1) {
-        _depth += self.timeSinceLastUpdate * 1.0f;
-    } else if (recognizer.velocity < 1) {
-        _depth -= self.timeSinceLastUpdate * 1.0f;
-    }
+- (IBAction)panRecognizer:(UIPanGestureRecognizer *)sender {
+    CGPoint translation = [sender translationInView:sender.view];
+    float x = translation.x/sender.view.frame.size.width;
+    float y = translation.y/sender.view.frame.size.height;
+    NSLog(@"Translation %.1f %.1f", x, y);
 }
+
 
 @end
