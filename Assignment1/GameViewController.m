@@ -80,7 +80,7 @@ GLfloat gCubeVertexData[216] =
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
-    float _rotation;
+    float _rotation, _rotation2;
     bool rotating;
     
     GLuint _vertexArray;
@@ -96,8 +96,6 @@ GLfloat gCubeVertexData[216] =
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
-
-- (IBAction)doDoubleTap:(UITapGestureRecognizer *)recognizer;
 @end
 
 @implementation GameViewController
@@ -122,6 +120,9 @@ GLfloat gCubeVertexData[216] =
     doubleTap.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:doubleTap];
     
+    UIPanGestureRecognizer *singlePress = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(doSingleTap:)];
+    singlePress.maximumNumberOfTouches = 1;
+    [self.view addGestureRecognizer:singlePress];
 }
 
 - (void)dealloc
@@ -207,11 +208,12 @@ GLfloat gCubeVertexData[216] =
     self.effect.transform.projectionMatrix = projectionMatrix;
     
     GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
+    //baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 0.0f, 0.0f); // camera's rotation
     
     // Compute the model view matrix for the object rendered with ES2
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     self.effect.transform.modelviewMatrix = modelViewMatrix;
@@ -223,7 +225,6 @@ GLfloat gCubeVertexData[216] =
     if (rotating) {
         _rotation += self.timeSinceLastUpdate * 0.5f;
     }
-    
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -399,8 +400,19 @@ GLfloat gCubeVertexData[216] =
     return YES;
 }
 
--  (IBAction)doDoubleTap : (UITapGestureRecognizer *) recognizer {
+-  (void) doDoubleTap : (UITapGestureRecognizer *) recognizer {
     rotating = !rotating;
+}
+
+-  (void) doSingleTap : (UIPanGestureRecognizer *) recognizer {
+    CGPoint vel = [recognizer velocityInView:self.view];
+    if (!rotating) {
+        if (vel.x > 0) {
+            _rotation += self.timeSinceLastUpdate * 1.0f;
+        } else if (vel.x < 0) {
+            _rotation -= self.timeSinceLastUpdate * 1.0f;
+        }
+    }
 }
 
 @end
