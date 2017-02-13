@@ -81,7 +81,7 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
     GLKMatrix4 modelViewMatrix;
-    float _rotation, _rotation2;
+    float _rotation, _rotation2, _depth;
     bool rotating;
     
     GLuint _vertexArray;
@@ -219,6 +219,7 @@ GLfloat gCubeVertexData[216] =
     modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f);
+    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, _depth);
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     self.effect.transform.modelviewMatrix = modelViewMatrix;
@@ -426,8 +427,10 @@ GLfloat gCubeVertexData[216] =
 }
 
 - (void) doSinglePinch : (UIPinchGestureRecognizer *) recognizer {
-    if (recognizer.scale > 1) {
-        modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, 1.0f);
+    if (recognizer.velocity > 1) {
+        _depth += self.timeSinceLastUpdate * 1.0f;
+    } else if (recognizer.velocity < 1) {
+        _depth -= self.timeSinceLastUpdate * 1.0f;
     }
 }
 
