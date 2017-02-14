@@ -20,6 +20,15 @@
                     <view key="view" contentMode="scaleToFill" id="3se-qz-xqx" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r57-mc-ZGm">
+                                <rect key="frame" x="87" y="28" width="200" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <connections>
@@ -28,6 +37,9 @@
                             <outletCollection property="gestureRecognizers" destination="dLt-jy-cQp" appends="YES" id="apN-aM-4uX"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outlet property="DisplayLabel" destination="r57-mc-ZGm" id="rdd-cR-VDb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer numberOfTapsRequired="2" id="pxt-tx-KHr">
@@ -46,6 +58,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="24.800000000000001" y="34.632683658170919"/>
         </scene>
     </scenes>
 </document>

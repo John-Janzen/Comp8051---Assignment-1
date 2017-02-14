@@ -207,8 +207,12 @@ GLfloat gCubeVertexData[216] =
     // Compute the model view matrix for the object rendered with ES2
     modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, _depth);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f); 
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+    
+    NSString *labelPos = [NSString stringWithFormat: @"X: %.1f, Y: %.1f, Z: %.1f", modelViewMatrix.m30, modelViewMatrix.m31, modelViewMatrix.m32];
+    
+    _DisplayLabel.text = labelPos;
     
     self.effect.transform.modelviewMatrix = modelViewMatrix;
     
