@@ -526,6 +526,7 @@
 				ECC4DF081E517B4500FD2E62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ECC4DF091E517B4500FD2E62 /* Build configuration list for PBXNativeTarget "Assignment1Tests" */ = {
 			isa = XCConfigurationList;
@@ -534,6 +535,7 @@
 				ECC4DF0B1E517B4500FD2E62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ECC4DF0C1E517B4500FD2E62 /* Build configuration list for PBXNativeTarget "Assignment1UITests" */ = {
 			isa = XCConfigurationList;
@@ -542,6 +544,7 @@
 				ECC4DF0E1E517B4500FD2E62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

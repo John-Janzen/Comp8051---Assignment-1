@@ -205,10 +205,9 @@ GLfloat gCubeVertexData[216] =
     //baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 0.0f, 0.0f); // camera's rotation
     
     // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
+    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, _depth);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f);
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, _depth);
     modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     self.effect.transform.modelviewMatrix = modelViewMatrix;
@@ -397,19 +396,30 @@ GLfloat gCubeVertexData[216] =
 
 //GESTURES
 - (IBAction)singleTapRecognizer:(UITapGestureRecognizer *)sender {
-    NSLog(@"Single Tap");
+    rotating = !rotating;
 }
 
 - (IBAction)pinchRecognizer:(UIPinchGestureRecognizer *)sender {
-    float scale = [sender scale];
-    NSLog(@"Scale %.1f", scale);
+    float scale = [sender velocity];
+    if (scale > 1) {
+        _depth += self.timeSinceLastUpdate * 1.0f;
+    } else if (scale < 1) {
+        _depth -= self.timeSinceLastUpdate * 1.0f;
+    }
 }
 
 - (IBAction)panRecognizer:(UIPanGestureRecognizer *)sender {
-    CGPoint translation = [sender translationInView:sender.view];
-    float x = translation.x/sender.view.frame.size.width;
-    float y = translation.y/sender.view.frame.size.height;
-    NSLog(@"Translation %.1f %.1f", x, y);
+    CGPoint vel = [sender velocityInView:self.view];
+    if (vel.x > 1) {
+        _rotation += self.timeSinceLastUpdate * 0.5f;
+    } else if (vel.x < 1) {
+        _rotation -= self.timeSinceLastUpdate * 0.5f;
+    }
+    if (vel.y > 1) {
+        _rotation2 += self.timeSinceLastUpdate * 0.5f;
+    } else if (vel.y < 1) {
+        _rotation2 -= self.timeSinceLastUpdate * 0.5f;
+    }
 }
 
 
