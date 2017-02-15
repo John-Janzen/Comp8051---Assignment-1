@@ -174,6 +174,7 @@ GLfloat gCubeVertexData[216] =
     glEnableVertexAttribArray(GLKVertexAttribNormal);
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
     
+    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
     glBindVertexArrayOES(0);
 }
 
@@ -201,14 +202,11 @@ GLfloat gCubeVertexData[216] =
     
     self.effect.transform.projectionMatrix = projectionMatrix;
     
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    //baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 0.0f, 0.0f); // camera's rotation
-    
     // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, _depth);
+    //modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f); 
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+    //modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
     
     NSString *labelPos = [NSString stringWithFormat: @"X: %.1f, Y: %.1f, Z: %.1f", modelViewMatrix.m30, modelViewMatrix.m31, modelViewMatrix.m32];
     
@@ -414,16 +412,25 @@ GLfloat gCubeVertexData[216] =
 
 - (IBAction)panRecognizer:(UIPanGestureRecognizer *)sender {
     CGPoint vel = [sender velocityInView:self.view];
-    if (vel.x > 1) {
-        _rotation += self.timeSinceLastUpdate * 0.5f;
-    } else if (vel.x < 1) {
-        _rotation -= self.timeSinceLastUpdate * 0.5f;
+    if ([sender numberOfTouches] == 2) {
+        if (vel.x > 1) {
+            _rotation += self.timeSinceLastUpdate * 0.5f;
+        } else if (vel.x < 1) {
+            _rotation -= self.timeSinceLastUpdate * 0.5f;
+        }
+        if (vel.y > 1) {
+            _rotation2 += self.timeSinceLastUpdate * 0.5f;
+        } else if (vel.y < 1) {
+            _rotation2 -= self.timeSinceLastUpdate * 0.5f;
+        }
+    } else if ([sender numberOfTouches] == 1) {
+        if (vel.x > 1) {
+            modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.1f, 0.0f, 0.0f);
+        } else if (vel.x < 1) {
+            modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, -0.1f, 0.0f, 0.0f);
+        }
     }
-    if (vel.y > 1) {
-        _rotation2 += self.timeSinceLastUpdate * 0.5f;
-    } else if (vel.y < 1) {
-        _rotation2 -= self.timeSinceLastUpdate * 0.5f;
-    }
+    
 }
 
 
