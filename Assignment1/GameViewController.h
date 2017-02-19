@@ -12,5 +12,8 @@
 @interface GameViewController : GLKViewController
 @property (weak, nonatomic) IBOutlet UILabel *infoLabel1;
 @property (weak, nonatomic) IBOutlet UILabel *InfoLabel2;
+@property (weak, nonatomic) IBOutlet UIButton *buttonPress;
+@property (weak, nonatomic) IBOutlet UILabel *classLabel;
+@property (weak, nonatomic) IBOutlet UIButton *switchButton;
 
 @end

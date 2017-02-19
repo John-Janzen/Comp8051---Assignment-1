@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EC1E5CBB1E5A39FC008697C7 /* Incrementor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC1E5CB91E5A39FC008697C7 /* Incrementor.cpp */; };
+		EC1E5CBD1E5A4420008697C7 /* MixClasses.mm in Sources */ = {isa = PBXBuildFile; fileRef = EC1E5CBC1E5A4420008697C7 /* MixClasses.mm */; };
 		ECC4DEDA1E517B4400FD2E62 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DED91E517B4400FD2E62 /* main.m */; };
 		ECC4DEDD1E517B4400FD2E62 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DEDC1E517B4400FD2E62 /* AppDelegate.m */; };
 		ECC4DEDF1E517B4400FD2E62 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEDE1E517B4400FD2E62 /* Shader.fsh */; };
@@ -38,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EC1E5CB91E5A39FC008697C7 /* Incrementor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Incrementor.cpp; sourceTree = "<group>"; };
+		EC1E5CBA1E5A39FC008697C7 /* Incrementor.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = Incrementor.h; sourceTree = "<group>"; };
+		EC1E5CBC1E5A4420008697C7 /* MixClasses.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MixClasses.mm; sourceTree = "<group>"; };
+		EC1E5CBE1E5A4434008697C7 /* MixClasses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MixClasses.h; sourceTree = "<group>"; };
 		ECC4DED51E517B4400FD2E62 /* Assignment1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Assignment1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECC4DED91E517B4400FD2E62 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ECC4DEDB1E517B4400FD2E62 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -121,6 +127,10 @@
 				ECC4DED81E517B4400FD2E62 /* Supporting Files */,
 				ECF38FC11E5952E00079B93D /* Drawable.m */,
 				ECF38FC31E5953030079B93D /* Drawable.h */,
+				EC1E5CB91E5A39FC008697C7 /* Incrementor.cpp */,
+				EC1E5CBA1E5A39FC008697C7 /* Incrementor.h */,
+				EC1E5CBC1E5A4420008697C7 /* MixClasses.mm */,
+				EC1E5CBE1E5A4434008697C7 /* MixClasses.h */,
 			);
 			path = Assignment1;
 			sourceTree = "<group>";
@@ -290,6 +300,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECC4DEDD1E517B4400FD2E62 /* AppDelegate.m in Sources */,
+				EC1E5CBD1E5A4420008697C7 /* MixClasses.mm in Sources */,
+				EC1E5CBB1E5A39FC008697C7 /* Incrementor.cpp in Sources */,
 				ECC4DEE41E517B4400FD2E62 /* GameViewController.m in Sources */,
 				ECC4DEDA1E517B4400FD2E62 /* main.m in Sources */,
 				ECF38FC21E5952E00079B93D /* Drawable.m in Sources */,

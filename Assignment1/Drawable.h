@@ -25,6 +25,7 @@
 - (GLKVector3) getRotation;
 - (GLKMatrix4) rotateMatrixSetup;
 - (void) newRotate:(GLKVector3)rot;
+- (void) resetPosRot;
 
 @end
 

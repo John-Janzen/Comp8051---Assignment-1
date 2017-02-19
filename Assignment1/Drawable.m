@@ -74,4 +74,9 @@
     _rotateVector = GLKVector3Add(_rotateVector, rot);
 }
 
+- (void) resetPosRot {
+    _positionVector = GLKVector3Make(0.0f, 0.0f, 0.0f);
+    _rotateVector = GLKVector3Make(0.0f, 0.0f, 0.0f);
+}
+
 @end

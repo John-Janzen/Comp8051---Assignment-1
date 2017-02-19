@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #include "Drawable.h"
+#include "MixClasses.h"
 #import <OpenGLES/ES2/glext.h>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -84,8 +85,9 @@ GLfloat gCubeVertexData[216] =
     GLKMatrix4 _baseModelViewMatrix;
     float _rotation;
     bool rotating;
-    float rad2Deg;;
+    float rad2Deg;
     Drawable *cube;
+    MixClasses *mix;
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
@@ -108,6 +110,7 @@ GLfloat gCubeVertexData[216] =
 {
     [super viewDidLoad];
     rad2Deg = 57.2957795;
+    mix = [[MixClasses alloc] init];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -181,6 +184,7 @@ GLfloat gCubeVertexData[216] =
     _baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
     cube = [[Drawable alloc]init: GLKVector3Make(0.0f, 0.0f, 0.0f): GLKVector3Make(0.0f, 0.0f, 0.0f)];
     
+    _classLabel.text = [NSString stringWithFormat:@"%@ Value: %d", [mix getString], [mix returnValue]];
     
     glBindVertexArrayOES(0);
 }
@@ -446,6 +450,15 @@ GLfloat gCubeVertexData[216] =
             [cube translateMatrix:GLKVector3Make(0.0f, 0.5f * self.timeSinceLastUpdate, 0.0f)];
         }
     }
+}
+
+- (IBAction)buttonPressed:(UIButton *)sender {
+    [cube resetPosRot];
+}
+
+- (IBAction)switchLabel:(UIButton *)sender {
+    [mix incrementValue];
+    _classLabel.text = [NSString stringWithFormat:@"%@ Value: %d",[mix getString], [mix returnValue]];
 }
 
 
