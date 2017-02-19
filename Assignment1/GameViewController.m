@@ -7,6 +7,7 @@
 //
 
 #import "GameViewController.h"
+#include "Drawable.h"
 #import <OpenGLES/ES2/glext.h>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
@@ -80,9 +81,11 @@ GLfloat gCubeVertexData[216] =
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
-    GLKMatrix4 modelViewMatrix;
-    float _rotation, _rotation2, _depth;
+    GLKMatrix4 _baseModelViewMatrix;
+    float _rotation;
     bool rotating;
+    float rad2Deg;;
+    Drawable *cube;
     
     GLuint _vertexArray;
     GLuint _vertexBuffer;
@@ -104,6 +107,7 @@ GLfloat gCubeVertexData[216] =
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    rad2Deg = 57.2957795;
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -174,6 +178,10 @@ GLfloat gCubeVertexData[216] =
     glEnableVertexAttribArray(GLKVertexAttribNormal);
     glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
     
+    _baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
+    cube = [[Drawable alloc]init: GLKVector3Make(0.0f, 0.0f, 0.0f): GLKVector3Make(0.0f, 0.0f, 0.0f)];
+    
+    
     glBindVertexArrayOES(0);
 }
 
@@ -201,24 +209,27 @@ GLfloat gCubeVertexData[216] =
     
     self.effect.transform.projectionMatrix = projectionMatrix;
     
-    GLKMatrix4 baseModelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -4.0f);
-    //baseModelViewMatrix = GLKMatrix4Rotate(baseModelViewMatrix, _rotation, 0.0f, 0.0f, 0.0f); // camera's rotation
-    
     // Compute the model view matrix for the object rendered with ES2
-    modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 0.0f, 1.0f, 0.0f);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation2, 1.0f, 0.0f, 0.0f);
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, _depth);
-    modelViewMatrix = GLKMatrix4Multiply(baseModelViewMatrix, modelViewMatrix);
+    [cube makeTranslationSetUp:[cube getPosition]];
     
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
+    [cube setModelMatrix:GLKMatrix4Multiply([cube getModelMatrix], [cube rotateMatrixSetup])];
+    [cube setModelMatrix:GLKMatrix4Multiply(_baseModelViewMatrix, [cube getModelMatrix])];
+    GLKVector3 position = [cube getPosition];
+    GLKVector3 rotate = [cube getRotation];
     
-    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(modelViewMatrix), NULL);
+    _infoLabel1.text = [NSString stringWithFormat:@"X: %.1f, Y: %.1f, Z: %.1f", position.x, position.y, position.z];
     
-    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    _InfoLabel2.text = [NSString stringWithFormat:@"X: %.2f, Y: %.2f, Z: %.2f",
+                        rotate.x * rad2Deg, rotate.y * rad2Deg, rotate.z * rad2Deg];
+
+    self.effect.transform.modelviewMatrix = [cube getModelMatrix];
+    
+    _normalMatrix = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3([cube getModelMatrix]), NULL);
+    
+    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, [cube getModelMatrix]);
     
     if (rotating) {
-        _rotation += self.timeSinceLastUpdate * 0.5f;
+        [cube newRotate:(GLKVector3Make(0.0f, 1.0f * self.timeSinceLastUpdate, 0.0f))];
     }
 }
 
@@ -397,19 +408,44 @@ GLfloat gCubeVertexData[216] =
 
 //GESTURES
 - (IBAction)singleTapRecognizer:(UITapGestureRecognizer *)sender {
-    NSLog(@"Single Tap");
+    rotating = !rotating;
 }
 
 - (IBAction)pinchRecognizer:(UIPinchGestureRecognizer *)sender {
-    float scale = [sender scale];
-    NSLog(@"Scale %.1f", scale);
+    float velocity = [sender velocity];
+    if (velocity > 0) {
+        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, 1.0f * self.timeSinceLastUpdate)];
+    } else if (velocity < 0){
+        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, -1.0f * self.timeSinceLastUpdate)];
+    }
 }
 
 - (IBAction)panRecognizer:(UIPanGestureRecognizer *)sender {
-    CGPoint translation = [sender translationInView:sender.view];
-    float x = translation.x/sender.view.frame.size.width;
-    float y = translation.y/sender.view.frame.size.height;
-    NSLog(@"Translation %.1f %.1f", x, y);
+    CGPoint velocity = [sender velocityInView:self.view];
+    NSLog(@"X: %.1f, Y: %.1f", velocity.x, velocity.y);
+    if ([sender numberOfTouches] == 1 && !rotating) {
+        if (velocity.x > 1) {
+            [cube newRotate:(GLKVector3Make(0.0f, 0.5f * self.timeSinceLastUpdate, 0.0f))];
+        } else if (velocity.x < 1) {
+            [cube newRotate:(GLKVector3Make(0.0f, -0.5f * self.timeSinceLastUpdate, 0.0f))];
+        }
+        if (velocity.y > 1) {
+            [cube newRotate:(GLKVector3Make(0.5f * self.timeSinceLastUpdate, 0.0f, 0.0f))];
+        } else if (velocity.y < 1) {
+            [cube newRotate:(GLKVector3Make(-0.5f * self.timeSinceLastUpdate, 0.0f, 0.0f))];
+        }
+    } else if ([sender numberOfTouches] == 2 && !rotating) {
+        if (velocity.x > 20) {
+            [cube translateMatrix:GLKVector3Make(0.5f * self.timeSinceLastUpdate, 0.0f, 0.0f)];
+        } else if (velocity.x < -20) {
+            [cube translateMatrix:GLKVector3Make(-0.5f * self.timeSinceLastUpdate, 0.0f, 0.0f)];
+        }
+        if (velocity.y > 20) {
+            [cube translateMatrix:GLKVector3Make(0.0f, -0.5f * self.timeSinceLastUpdate, 0.0f)];
+        } else if (velocity.y < -20) {
+            [cube translateMatrix:GLKVector3Make(0.0f, 0.5f * self.timeSinceLastUpdate, 0.0f)];
+        }
+    }
 }
 
 

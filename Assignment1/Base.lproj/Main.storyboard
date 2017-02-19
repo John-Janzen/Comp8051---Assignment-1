@@ -20,6 +20,22 @@
                     <view key="view" contentMode="scaleToFill" id="3se-qz-xqx" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lTC-r7-NfI">
+                                <rect key="frame" x="62" y="107" width="250" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zCw-LR-JTX">
+                                <rect key="frame" x="62" y="147" width="250" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <connections>
@@ -28,9 +44,13 @@
                             <outletCollection property="gestureRecognizers" destination="dLt-jy-cQp" appends="YES" id="apN-aM-4uX"/>
                         </connections>
                     </view>
+                    <connections>
+                        <outlet property="InfoLabel2" destination="zCw-LR-JTX" id="3LQ-yy-L4h"/>
+                        <outlet property="infoLabel1" destination="lTC-r7-NfI" id="TRW-sI-QMi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="pxt-tx-KHr">
+                <tapGestureRecognizer numberOfTapsRequired="2" id="pxt-tx-KHr">
                     <connections>
                         <action selector="singleTapRecognizer:" destination="BV1-FR-VrT" id="IuR-8y-CMU"/>
                     </connections>
@@ -40,12 +60,13 @@
                         <action selector="pinchRecognizer:" destination="BV1-FR-VrT" id="R1j-Ai-Ncp"/>
                     </connections>
                 </pinchGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="dLt-jy-cQp">
+                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="2" id="dLt-jy-cQp">
                     <connections>
                         <action selector="panRecognizer:" destination="BV1-FR-VrT" id="1Lo-Fw-eTj"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="37.600000000000001" y="42.728635682158924"/>
         </scene>
     </scenes>
 </document>

@@ -10,5 +10,7 @@
 #import <GLKit/GLKit.h>
 
 @interface GameViewController : GLKViewController
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel1;
+@property (weak, nonatomic) IBOutlet UILabel *InfoLabel2;
 
 @end

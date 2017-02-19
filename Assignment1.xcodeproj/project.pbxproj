@@ -17,6 +17,7 @@
 		ECC4DEEC1E517B4400FD2E62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ECC4DEEA1E517B4400FD2E62 /* LaunchScreen.storyboard */; };
 		ECC4DEF71E517B4500FD2E62 /* Assignment1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DEF61E517B4500FD2E62 /* Assignment1Tests.m */; };
 		ECC4DF021E517B4500FD2E62 /* Assignment1UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = ECC4DF011E517B4500FD2E62 /* Assignment1UITests.m */; };
+		ECF38FC21E5952E00079B93D /* Drawable.m in Sources */ = {isa = PBXBuildFile; fileRef = ECF38FC11E5952E00079B93D /* Drawable.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,8 @@
 		ECC4DEFD1E517B4500FD2E62 /* Assignment1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Assignment1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECC4DF011E517B4500FD2E62 /* Assignment1UITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Assignment1UITests.m; sourceTree = "<group>"; };
 		ECC4DF031E517B4500FD2E62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ECF38FC11E5952E00079B93D /* Drawable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Drawable.m; sourceTree = "<group>"; };
+		ECF38FC31E5953030079B93D /* Drawable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Drawable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,8 @@
 				ECC4DEEA1E517B4400FD2E62 /* LaunchScreen.storyboard */,
 				ECC4DEED1E517B4400FD2E62 /* Info.plist */,
 				ECC4DED81E517B4400FD2E62 /* Supporting Files */,
+				ECF38FC11E5952E00079B93D /* Drawable.m */,
+				ECF38FC31E5953030079B93D /* Drawable.h */,
 			);
 			path = Assignment1;
 			sourceTree = "<group>";
@@ -287,6 +292,7 @@
 				ECC4DEDD1E517B4400FD2E62 /* AppDelegate.m in Sources */,
 				ECC4DEE41E517B4400FD2E62 /* GameViewController.m in Sources */,
 				ECC4DEDA1E517B4400FD2E62 /* main.m in Sources */,
+				ECF38FC21E5952E00079B93D /* Drawable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +532,7 @@
 				ECC4DF081E517B4500FD2E62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ECC4DF091E517B4500FD2E62 /* Build configuration list for PBXNativeTarget "Assignment1Tests" */ = {
 			isa = XCConfigurationList;
@@ -534,6 +541,7 @@
 				ECC4DF0B1E517B4500FD2E62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ECC4DF0C1E517B4500FD2E62 /* Build configuration list for PBXNativeTarget "Assignment1UITests" */ = {
 			isa = XCConfigurationList;
@@ -542,6 +550,7 @@
 				ECC4DF0E1E517B4500FD2E62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
