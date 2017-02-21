@@ -214,9 +214,9 @@ GLfloat gCubeVertexData[216] =
     self.effect.transform.projectionMatrix = projectionMatrix;
     
     // Compute the model view matrix for the object rendered with ES2
-    [cube makeTranslationSetUp:[cube getPosition]];
+    [cube makeTranslationSetUp];
+    [cube rotateMatrixSetup];
     
-    [cube setModelMatrix:GLKMatrix4Multiply([cube getModelMatrix], [cube rotateMatrixSetup])];
     [cube setModelMatrix:GLKMatrix4Multiply(_baseModelViewMatrix, [cube getModelMatrix])];
     GLKVector3 position = [cube getPosition];
     GLKVector3 rotate = [cube getRotation];
@@ -418,15 +418,14 @@ GLfloat gCubeVertexData[216] =
 - (IBAction)pinchRecognizer:(UIPinchGestureRecognizer *)sender {
     float velocity = [sender velocity];
     if (velocity > 0) {
-        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, 1.0f * self.timeSinceLastUpdate)];
+        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, 1.5f * self.timeSinceLastUpdate)];
     } else if (velocity < 0){
-        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, -1.0f * self.timeSinceLastUpdate)];
+        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, -1.5f * self.timeSinceLastUpdate)];
     }
 }
 
 - (IBAction)panRecognizer:(UIPanGestureRecognizer *)sender {
     CGPoint velocity = [sender velocityInView:self.view];
-    NSLog(@"X: %.1f, Y: %.1f", velocity.x, velocity.y);
     if ([sender numberOfTouches] == 1 && !rotating) {
         if (velocity.x > 1) {
             [cube newRotate:(GLKVector3Make(0.0f, 0.5f * self.timeSinceLastUpdate, 0.0f))];

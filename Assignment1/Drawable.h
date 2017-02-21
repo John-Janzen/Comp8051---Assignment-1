@@ -14,18 +14,17 @@
 
 @interface Drawable : NSObject
 
-- (id) initWithModel: (GLKVector3) pos : (GLKVector3) rot;
-- (id) init:(GLKVector3) pos : (GLKVector3) rot;
-- (GLKMatrix4)getModelMatrix;
-- (void) translateMatrix:(GLKVector3) translate;
-- (void) makeTranslationSetUp:(GLKVector3) origin;
-- (void) setModelMatrix:(GLKMatrix4) matrix;
-- (void) rotateMatrix:(GLKVector3)rotateMat : (float)degree;
-- (GLKVector3) getPosition;
-- (GLKVector3) getRotation;
-- (GLKMatrix4) rotateMatrixSetup;
-- (void) newRotate:(GLKVector3)rot;
-- (void) resetPosRot;
+- (id) init:(GLKVector3) pos : (GLKVector3) rot; // Initializes Vector's position and rotations
+- (GLKMatrix4)getModelMatrix; // returns model matrix for item
+- (void) translateMatrix:(GLKVector3) translate; // translates the model
+- (void) makeTranslationSetUp; // sets up the translation matrix at the beginning
+- (void) setModelMatrix:(GLKMatrix4) matrix; // set the model matrix whenever needed
+- (void) rotateMatrix:(GLKVector3)rotateMat : (float)degree; // rotates model by radians on axis
+- (GLKVector3) getPosition; // returns position vector
+- (GLKVector3) getRotation; // returns rotation vector
+- (void) rotateMatrixSetup; // sets up rotation vector
+- (void) newRotate:(GLKVector3)rot; // creates new rotation matrix
+- (void) resetPosRot; // resets position + rotation to 0,0,0
 
 @end
 

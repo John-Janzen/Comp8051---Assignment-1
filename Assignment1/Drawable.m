@@ -22,17 +22,13 @@
 
 @implementation Drawable
 
-- (id)initWithModel:(GLKVector3)pos : (GLKVector3) rot {
+- (id) init : (GLKVector3) pos : (GLKVector3) rot {
     self = [super init];
     if (self) {
         _positionVector = pos;
         _rotateVector = rot;
     }
     return self;
-}
-
-- (id) init : (GLKVector3) pos : (GLKVector3) rot {
-    return [self initWithModel: pos : rot];
 }
 
 - (GLKMatrix4) getModelMatrix {
@@ -43,8 +39,8 @@
     _positionVector = GLKVector3Add(_positionVector, moveVector);
 }
 
-- (void) makeTranslationSetUp:(GLKVector3)origin {
-    modelMatrix = GLKMatrix4MakeTranslation(origin.x, origin.y, origin.z);
+- (void) makeTranslationSetUp {
+    modelMatrix = GLKMatrix4MakeTranslation(_positionVector.x, _positionVector.y, _positionVector.z);
 }
 
 - (void) setModelMatrix:(GLKMatrix4)matrix {
@@ -63,11 +59,12 @@
     return _rotateVector;
 }
 
-- (GLKMatrix4) rotateMatrixSetup {
+- (void) rotateMatrixSetup {
     GLKMatrix4 newMatrix = GLKMatrix4Identity;
     newMatrix = GLKMatrix4RotateX(newMatrix, _rotateVector.x);
     newMatrix = GLKMatrix4RotateY(newMatrix, _rotateVector.y);
-    return GLKMatrix4RotateZ(newMatrix, _rotateVector.z);
+    modelMatrix = GLKMatrix4Multiply(modelMatrix, GLKMatrix4RotateZ(newMatrix, _rotateVector.z));
+    
 }
 
 - (void) newRotate:(GLKVector3)rot {
