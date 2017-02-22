@@ -417,10 +417,12 @@ GLfloat gCubeVertexData[216] =
 
 - (IBAction)pinchRecognizer:(UIPinchGestureRecognizer *)sender {
     float velocity = [sender velocity];
-    if (velocity > 0) {
-        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, 1.5f * self.timeSinceLastUpdate)];
-    } else if (velocity < 0){
-        [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, -1.5f * self.timeSinceLastUpdate)];
+    if (!rotating) {
+        if (velocity > 0) {
+            [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, 1.5f * self.timeSinceLastUpdate)];
+        } else if (velocity < 0){
+            [cube translateMatrix:GLKVector3Make(0.0f, 0.0f, -1.5f * self.timeSinceLastUpdate)];
+        }
     }
 }
 
